@@ -218,9 +218,9 @@ select#price{
   100%{box-shadow:none}
 }
 
-/* 入场显现 */
-.card,.pick{opacity:0;transform:translateY(16px)}
-.card.in,.pick.in{opacity:1;transform:none;transition:opacity .55s ease,transform .55s cubic-bezier(.2,.7,.2,1)}
+/* 入场显现（body.rvl 启用；不支持帧回调的环境自动降级为全部可见） */
+body.rvl .card,body.rvl .pick{opacity:0;transform:translateY(16px)}
+body.rvl .card.in,body.rvl .pick.in{opacity:1;transform:none;transition:opacity .55s ease,transform .55s cubic-bezier(.2,.7,.2,1),box-shadow .22s ease,border-color .22s ease,background .22s ease}
 @keyframes rise{from{opacity:0;transform:translateY(18px)}}
 
 /* ── 空态 ─────────────────────────── */
@@ -521,18 +521,34 @@ function render(){
     if(state.favOnly&&favs.size===0){$("#emptyTitle").textContent="朱印尚未落章";$("#emptyDesc").textContent="在任意工具卡右上角点「藏」，把好工具收进你的图鉴。"}
     else{$("#emptyTitle").textContent="无检索结果";$("#emptyDesc").textContent="换个关键词，或重置筛选再试。"}
   }
-  requestAnimationFrame(reveal);
+  reveal();
 }
 
-/* ── 入场显现 ─────────────────────── */
-const io=new IntersectionObserver(es=>{
-  es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}});
-},{rootMargin:"0px 0px -6% 0px",threshold:.05});
-function reveal(){
-  document.querySelectorAll(".card:not(.in),.pick:not(.in)").forEach((el,i)=>{
-    el.style.transitionDelay=Math.min(i*32,420)+"ms";io.observe(el);
+/* ── 入场显现（rAF 可用时启用，滚动扫描触发） ── */
+document.body.classList.add("rvl");
+let sweepQueued=false;
+function sweep(){
+  const limit=window.innerHeight*.94;
+  let n=0;
+  document.querySelectorAll(".card:not(.in),.pick:not(.in)").forEach(el=>{
+    const r=el.getBoundingClientRect();
+    if(r.top<limit&&r.bottom>0){
+      el.style.transitionDelay=Math.min(n*28,260)+"ms";
+      el.classList.add("in");n++;
+      setTimeout(()=>{el.style.transitionDelay=""},700);
+    }
   });
 }
+function onScroll(){
+  if(sweepQueued)return;sweepQueued=true;
+  requestAnimationFrame(()=>{sweepQueued=false;sweep()});
+}
+window.addEventListener("scroll",onScroll,{passive:true});
+window.addEventListener("resize",onScroll,{passive:true});
+let framesOK=false;
+requestAnimationFrame(()=>{framesOK=true});
+function reveal(){sweep()}
+setTimeout(()=>{if(!framesOK)document.body.classList.remove("rvl");sweep()},260);
 
 /* ── 收藏 ─────────────────────────── */
 function updateFavUI(){
