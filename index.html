@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AI 工具年鉴 · The AI Atlas — 收藏 59 款热门 AI 工具</title>
-<meta name="description" content="一份免登录的 AI 工具图鉴：聚合 59 款热门 AI 工具，九卷分类、编辑精选、即时检索与本地收藏，以朱印为记。">
+<title>AI 工具年鉴 · The AI Atlas — 收藏 72 款热门 AI 工具</title>
+<meta name="description" content="一份免登录的 AI 工具图鉴：聚合 72 款热门 AI 工具，九卷分类、编辑精选、即时检索与本地收藏，以朱印为记。">
 <meta name="theme-color" content="#f5f0e4">
+<script>(function(){try{var t=localStorage.getItem("ai-atlas-theme");if(t==="dark"||(!t&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches))document.documentElement.classList.add("dark")}catch(e){}})();</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23c6301c'/%3E%3Ctext x='32' y='45' font-size='36' text-anchor='middle' fill='%23f5f0e4' font-family='serif' font-weight='900'%3E%E8%97%8F%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -254,6 +255,55 @@ footer{position:relative;overflow:hidden;border-top:2px solid var(--ink);margin-
 .toast.show{opacity:1;transform:translate(-50%,0)}
 .t-seal{display:grid;place-items:center;width:22px;height:22px;background:var(--red);color:#fff;font:900 12px/1 var(--serif);transform:rotate(-8deg);flex:none}
 
+/* ── 夜览模式 ─────────────────── */
+html.dark{--paper:#181510;--paper-2:#211d15;--card:rgba(45,40,29,.55);--ink:#eae3d3;--ink-2:#b5ac97;--ink-3:#7f7767;--line:rgba(234,227,211,.14);--line-strong:rgba(234,227,211,.34);--red:#e0492f;--red-deep:#c9432a}
+html.dark body{background:radial-gradient(1200px 500px at 50% -120px,rgba(255,236,196,.05),transparent 70%),var(--paper)}
+html.dark body::before{filter:invert(1);mix-blend-mode:screen;opacity:.75}
+html.dark .toolbar{background:rgba(24,21,16,.94)}
+html.dark .ticker{background:rgba(255,244,214,.03)}
+html.dark .card:hover{background:rgba(58,51,38,.85);box-shadow:0 14px 28px -20px rgba(0,0,0,.75)}
+html.dark .m-seal{box-shadow:0 3px 0 rgba(0,0,0,.45)}
+html.dark .f-mark{-webkit-text-stroke-color:rgba(234,227,211,.06)}
+html.dark .lucky-btn{background:var(--ink);color:#181510}
+html.dark .lucky-btn:hover{background:var(--red);color:#f7f0e1}
+html.dark .toast{background:#efe7d5;color:#201c14}
+html.dark .p-free{color:#82c9a0}
+html.dark .p-freemium{color:#d1a94e}
+html.dark .p-open{color:#82b8c6}
+html.dark select#price{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M1 1l4 4 4-4' stroke='%23b5ac97' fill='none' stroke-width='1.5'/></svg>")}
+
+/* ── 收藏清单抽屉 ─────────────────── */
+.drawer{position:fixed;inset:0;z-index:150;pointer-events:none}
+.d-backdrop{position:absolute;inset:0;background:rgba(12,9,5,.5);opacity:0;transition:opacity .25s}
+.d-panel{position:absolute;top:0;right:0;height:100%;width:min(380px,94vw);background:var(--paper);border-left:2px solid var(--ink);transform:translateX(103%);transition:transform .32s cubic-bezier(.2,.7,.2,1);display:flex;flex-direction:column;box-shadow:-20px 0 44px -26px rgba(0,0,0,.45)}
+.drawer.open{pointer-events:auto}
+.drawer.open .d-backdrop{opacity:1}
+.drawer.open .d-panel{transform:none}
+.d-head{display:flex;justify-content:space-between;align-items:center;padding:18px 18px 13px;border-bottom:2px solid var(--ink)}
+.d-head h3{font:900 17px/1 var(--serif);letter-spacing:.12em}
+.d-head b{font:700 12px var(--mono);color:var(--red)}
+.d-close{border:0;background:none;font-size:15px;color:var(--ink-3);cursor:pointer}
+.d-close:hover{color:var(--red)}
+.d-list{flex:1;overflow-y:auto}
+.d-item{display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px dashed var(--line)}
+.d-item-name{font:700 14px/1.4 var(--serif);color:var(--ink);text-decoration:none}
+.d-item-name:hover{color:var(--red);text-decoration:underline;text-underline-offset:4px}
+.d-item-domain{font:500 10.5px var(--mono);color:var(--ink-3);margin-left:auto;white-space:nowrap}
+.d-del{border:0;background:none;color:var(--ink-3);cursor:pointer;font-size:13px;flex:none}
+.d-del:hover{color:var(--red)}
+.d-empty{padding:34px 22px;font-size:12.5px;color:var(--ink-3);text-align:center;line-height:2}
+.d-foot{display:flex;gap:8px;padding:14px 18px 18px;border-top:1px solid var(--line-strong)}
+.d-foot .btn{flex:1;justify-content:center}
+.d-danger:hover{border-color:var(--red);color:var(--red)}
+
+/* ── 回顶按钮 / 顶栏右侧 / 页脚按钮 ──────── */
+.to-top{position:fixed;right:22px;bottom:26px;width:42px;height:42px;border:1px solid var(--line-strong);background:var(--paper);color:var(--ink);font:700 16px/1 var(--mono);cursor:pointer;z-index:120;box-shadow:0 12px 26px -16px rgba(0,0,0,.45);opacity:0;transform:translateY(10px);transition:opacity .25s,transform .25s,background .2s,color .2s;pointer-events:none}
+.to-top.show{opacity:1;transform:none;pointer-events:auto}
+.to-top:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tb-r{display:flex;gap:16px;align-items:center}
+.f-bottom button{border:0;background:none;font:inherit;color:inherit;letter-spacing:inherit;cursor:pointer;padding:0}
+.f-bottom button:hover{color:var(--red)}
+
 /* ── 响应式 ───────────────────────── */
 @media (max-width:1080px){
   .picks-grid{grid-template-columns:1fr 1fr}
@@ -281,7 +331,10 @@ footer{position:relative;overflow:hidden;border-top:2px solid var(--ink);margin-
 <header class="topbar">
   <div class="wrap tb-in">
     <a class="tb-brand" href="#top">AI 工具年鉴<sup>THE AI ATLAS</sup></a>
-    <button class="tb-link" id="favTop" type="button">我的收藏 <b id="favTopN">0</b></button>
+    <nav class="tb-r">
+      <button class="tb-link" id="themeBtn" type="button" aria-label="切换夜览模式">☾ 夜览</button>
+      <button class="tb-link" id="favTop" type="button">我的收藏 <b id="favTopN">0</b></button>
+    </nav>
   </div>
 </header>
 
@@ -295,13 +348,13 @@ footer{position:relative;overflow:hidden;border-top:2px solid var(--ink);margin-
   <div class="m-grid">
     <div>
       <h1 class="m-title"><em>AI</em> 工具年鉴<span class="m-seal">藏</span></h1>
-      <p class="m-sub">A FIELD GUIDE TO 59 ARTIFICIAL INTELLIGENCE TOOLS</p>
-      <p class="m-stand">本鉴辑录当下最值得收录的 <strong>59 款热门 AI 工具</strong>，按用途分作九卷；支持即时检索、按卷浏览与编辑精选。收藏以<strong>朱印</strong>为记，存于本机浏览器，无需注册登录。</p>
+      <p class="m-sub">A FIELD GUIDE TO 72 ARTIFICIAL INTELLIGENCE TOOLS</p>
+      <p class="m-stand">本鉴辑录当下最值得收录的 <strong><span id="statTotal">72 款</span>热门 AI 工具</strong>，按用途分作九卷；支持即时检索、按卷浏览与编辑精选。收藏以<strong>朱印</strong>为记，存于本机浏览器，无需注册登录。</p>
     </div>
     <aside class="m-aside">
       <h5>本卷提要</h5>
       <dl>
-        <div><dt>收录工具</dt><dd>59 款</dd></div>
+        <div><dt>收录工具</dt><dd id="asideTotal">72 款</dd></div>
         <div><dt>分类卷次</dt><dd>九卷</dd></div>
         <div><dt>编辑精选</dt><dd>4 款</dd></div>
         <div><dt>我的收藏</dt><dd id="asideFav">0 枚</dd></div>
@@ -317,7 +370,7 @@ footer{position:relative;overflow:hidden;border-top:2px solid var(--ink);margin-
   <div class="wrap bar-row">
     <div class="search">
       <label for="q">检索</label>
-      <input id="q" type="search" placeholder="工具名 / 域名 / 用途，如「视频」「写作」…" autocomplete="off">
+      <input id="q" type="search" placeholder="工具名 / 域名 / 用途，按 / 快速检索…" autocomplete="off">
       <button class="q-clear" id="qClear" type="button" hidden aria-label="清空检索">✕</button>
     </div>
     <select id="price" aria-label="按定价筛选">
@@ -361,9 +414,26 @@ footer{position:relative;overflow:hidden;border-top:2px solid var(--ink);margin-
   </div>
   <div class="wrap f-bottom">
     <span>© 2026 AI 工具年鉴 THE AI ATLAS · 第 001 期 · 手工排版</span>
+    <button id="shareBtn" type="button">分享本站 ⧉</button>
     <a href="#top">回到卷首 ↑</a>
   </div>
 </footer>
+
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="d-backdrop" id="dBackdrop"></div>
+  <div class="d-panel" role="dialog" aria-label="收藏清单">
+    <header class="d-head"><h3>收藏清单 <b id="dCount">0</b></h3><button class="d-close" id="dClose" type="button" aria-label="关闭">✕</button></header>
+    <div class="d-list" id="dList"></div>
+    <div class="d-empty" id="dEmpty">还没有收藏 —— 在任意卡片右上角点「藏」字圆章，把好工具收进你的图鉴。</div>
+    <footer class="d-foot">
+      <button class="btn" id="dCopy" type="button">复制清单</button>
+      <button class="btn" id="dExport" type="button">导出 JSON</button>
+      <button class="btn d-danger" id="dClear" type="button">清空</button>
+    </footer>
+  </div>
+</aside>
+
+<button class="to-top" id="toTop" type="button" aria-label="回到顶部" hidden>↑</button>
 
 <div class="toast" id="toast" role="status" aria-live="polite"><span class="t-seal">藏</span><span id="toastMsg"></span></div>
 
@@ -399,6 +469,7 @@ const TOOLS=[
   ["copilot-ms","Microsoft Copilot","copilot.microsoft.com","微软出品，Windows 与 Office 里的 AI 副驾驶","chat","free",0],
   ["poe","Poe","poe.com","Quora 出品，一个入口畅聊各家旗舰模型","chat","freemium",0],
   ["mistral","Mistral","chat.mistral.ai","法国 Mistral 出品，开源阵营的欧洲代表","chat","freemium",0],
+  ["xfyun","讯飞星火","xinghuo.xfyun.cn","科大讯飞出品，认知大模型与语音强项","chat","freemium",0],
   ["midjourney","Midjourney","midjourney.com","艺术风格图像生成的标杆，审美天花板","image","paid",1,"艺术感的代名词。概念海报、插画资产、品牌视觉，出图水准始终在线。"],
   ["sd","Stable Diffusion","stability.ai","最著名的开源图像模型家族，可本地部署可微调","image","open",1],
   ["ideogram","Ideogram","ideogram.ai","擅长海报与文字排版，中文标语也能画准","image","freemium",0],
@@ -406,12 +477,14 @@ const TOOLS=[
   ["recraft","Recraft","recraft.ai","矢量图、图标与品牌风格图像生成专家","image","freemium",0],
   ["firefly","Adobe Firefly","firefly.adobe.com","Adobe 官方模型，商用安全并深度联动 PS","image","freemium",0],
   ["jimeng","即梦 AI","jimeng.jianying.com","字节出品，图片与视频一体的中文创作平台","image","freemium",0],
+  ["krea","Krea","krea.ai","实时生成与增强的 AI 创意工作台","image","freemium",0],
   ["sora","Sora","sora.com","OpenAI 视频模型，叙事感与物理真实感兼备","video","freemium",1],
   ["runway","Runway","runwayml.com","影视级生成与剪辑工具箱，好莱坞也在用","video","freemium",0],
   ["kling","可灵 AI","klingai.com","快手出品，国产视频生成第一梯队","video","freemium",1],
   ["pika","Pika","pika.art","轻量趣味，特效模板让照片一张张活过来","video","freemium",0],
   ["luma","Luma Dream Machine","lumalabs.ai","3D 质感视频与可交互世界模型","video","freemium",0],
   ["heygen","HeyGen","heygen.com","数字人口播与视频多语言翻译神器","video","freemium",0],
+  ["hailuo","海螺 AI","hailuoai.com","MiniMax 出品，文生视频与语音一体","video","freemium",0],
   ["suno","Suno","suno.com","写下歌词就生成完整歌曲，AI 音乐顶流","audio","freemium",1,"哼出两句歌词，三十秒后收到一首带人声的完整单曲。本年度最快乐的音乐玩具。"],
   ["udio","Udio","udio.com","高音质 AI 音乐创作，人声表现出众","audio","freemium",0],
   ["elevenlabs","ElevenLabs","elevenlabs.io","拟真语音合成与声音克隆的行业标杆","audio","freemium",0],
@@ -429,22 +502,32 @@ const TOOLS=[
   ["lingma","通义灵码","lingma.aliyun.com","阿里出品，贴合中文开发者的编码助手","code","free",0],
   ["devv","Devv","devv.ai","程序员专属 AI 搜索，答案直接带代码","code","freemium",0],
   ["hf","Hugging Face","huggingface.co","全球最大开源模型社区，AI 界的 GitHub","code","free",0],
+  ["zed","Zed","zed.dev","高性能开源编辑器，内置 AI 协作","code","open",0],
   ["notion","Notion AI","notion.com","笔记与文档里的写作助手，问答与自动排版","write","paid",0],
   ["grammarly","Grammarly","grammarly.com","英文写作的语法、语气与润色顾问","write","freemium",0],
   ["xiezuocat","秘塔写作猫","xiezuocat.com","中文校对与改写，公文论文两相宜","write","freemium",0],
   ["notebooklm","NotebookLM","notebooklm.google.com","Google 出品，喂文档做研究，还能生成播客","write","free",0],
+  ["feishu-min","飞书妙记","feishu.cn/product/minutes","飞书出品，会议转写与 AI 摘要待办","write","freemium",0],
+  ["otter","Otter.ai","otter.ai","英文会议实时转写与智能纪要","write","freemium",0],
+  ["tldv","tl;dv","tldv.io","会议录制、转写与要点提取","write","freemium",0],
   ["gamma","Gamma","gamma.app","一句话生成精美演示、网页与文档","design","freemium",0],
   ["canva","Canva 可画","canva.com","全能平面设计平台，AI 抠图与文生图齐备","design","freemium",0],
   ["figma","Figma","figma.com","协作界面设计标准，AI 生成设计稿与原型","design","freemium",0],
+  ["jsdesign","即时设计","js.design","国产协作设计工具，AI 资源丰富","design","freemium",0],
+  ["motiff","Motiff 妙多","motiff.com","AI 驱动的专业 UI 设计工具","design","freemium",0],
+  ["beautiful","Beautiful.ai","beautiful.ai","AI 自动排版，幻灯片智能美化","design","paid",0],
+  ["gaoding","稿定设计","gaoding.com","国产平面设计平台，模板海量","design","freemium",0],
   ["perplexity","Perplexity","perplexity.ai","带引用来源的 AI 答案引擎","search","freemium",1],
   ["metaso","秘塔 AI 搜索","metaso.cn","国产 AI 搜索，无广告直达结构化结果","search","free",0],
   ["kagi","Kagi","kagi.com","付费无广告，人工加权的高质量搜索","search","paid",0],
   ["phind","Phind","phind.com","面向开发者的技术问答搜索","search","freemium",0],
   ["you","You.com","you.com","多模型聚合的 AI 搜索与助手","search","freemium",0],
+  ["exa","Exa","exa.ai","面向 AI 应用的语义搜索引擎","search","freemium",0],
   ["coze","Coze 扣子","coze.cn","字节出品，零代码搭建并发布 AI Bot","agent","freemium",0],
   ["dify","Dify","dify.ai","开源 LLM 应用开发平台，私有化部署友好","agent","open",0],
   ["n8n","n8n","n8n.io","开源工作流自动化，接上 AI 就是 Agent","agent","open",0],
-  ["manus","Manus","manus.im","通用 AI 智能体，交付结果而非答案","agent","freemium",0]
+  ["manus","Manus","manus.im","通用 AI 智能体，交付结果而非答案","agent","freemium",0],
+  ["zapier","Zapier","zapier.com","老牌自动化平台，AI 工作流连接器","agent","freemium",0]
 ];
 
 /* ── 状态 ─────────────────────────── */
@@ -592,7 +675,6 @@ $("#qClear").addEventListener("click",()=>{qInput.value="";state.q="";$("#qClear
 $("#price").addEventListener("change",e=>{state.price=e.target.value;render()});
 function toggleFavOnly(){state.favOnly=!state.favOnly;updateFavUI();render()}
 $("#favBtn").addEventListener("click",toggleFavOnly);
-$("#favTop").addEventListener("click",toggleFavOnly);
 function syncTabs(){[...tabsEl.children].forEach(b=>b.classList.toggle("on",b.dataset.cat===state.cat))}
 function syncControls(){
   qInput.value=state.q;$("#qClear").hidden=!state.q;
@@ -623,6 +705,81 @@ $("#lucky").addEventListener("click",()=>{
   const items=TOOLS.map(t=>`<span>${t[1]}</span><i>✦</i>`).join("");
   $("#tickerTrack").innerHTML=`<div class="tk-g">${items}</div><div class="tk-g">${items}</div>`;
 })();
+
+/* ── 夜览模式 ─────────────────────── */
+const themeBtn=$("#themeBtn");
+function applyThemeLabel(){
+  const dark=document.documentElement.classList.contains("dark");
+  themeBtn.textContent=dark?"☀ 日览":"☾ 夜览";
+  const meta=document.querySelector('meta[name="theme-color"]');
+  if(meta)meta.content=dark?"#181510":"#f5f0e4";
+}
+themeBtn.addEventListener("click",()=>{
+  document.documentElement.classList.toggle("dark");
+  try{localStorage.setItem("ai-atlas-theme",document.documentElement.classList.contains("dark")?"dark":"light")}catch(e){}
+  applyThemeLabel();
+});
+applyThemeLabel();
+
+/* ── 收藏清单抽屉 ──────────────────── */
+const drawer=$("#drawer");
+function renderDrawer(){
+  const list=TOOLS.filter(t=>favs.has(t[0]));
+  $("#dCount").textContent=list.length;
+  $("#dEmpty").hidden=list.length>0;
+  $("#dList").innerHTML=list.map(t=>`<div class="d-item"><a class="d-item-name" href="${url(t)}" target="_blank" rel="noopener">${t[1]}</a><span class="d-item-domain">${t[2]}</span><button class="d-del" data-del="${t[0]}" type="button" aria-label="移除 ${t[1]}">✕</button></div>`).join("");
+}
+function openDrawer(){renderDrawer();drawer.classList.add("open");drawer.setAttribute("aria-hidden","false")}
+function closeDrawer(){drawer.classList.remove("open");drawer.setAttribute("aria-hidden","true")}
+$("#favTop").addEventListener("click",openDrawer);
+$("#dClose").addEventListener("click",closeDrawer);
+$("#dBackdrop").addEventListener("click",closeDrawer);
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape")closeDrawer();
+  if(e.key==="/"&&!/INPUT|TEXTAREA|SELECT/.test((document.activeElement||{}).tagName||"")){e.preventDefault();qInput.focus()}
+});
+$("#dList").addEventListener("click",e=>{
+  const d=e.target.closest("[data-del]");if(!d)return;
+  const t=TOOLS.find(x=>x[0]===d.dataset.del);if(!t)return;
+  favs.delete(t[0]);saveFavs();updateFavUI();renderDrawer();
+  if(state.favOnly)render();
+  else document.querySelectorAll(`[data-id="${t[0]}"] .seal`).forEach(s=>{s.classList.remove("on");s.setAttribute("aria-pressed","false")});
+  toast(`已从收藏移出「${t[1]}」`);
+});
+$("#dCopy").addEventListener("click",async()=>{
+  const list=TOOLS.filter(t=>favs.has(t[0]));
+  if(!list.length)return toast("收藏夹还是空的");
+  const md="## 我的 AI 工具收藏 · AI 工具年鉴\n\n"+list.map(t=>`- [${t[1]}](${url(t)}) — ${t[3]}`).join("\n");
+  try{await navigator.clipboard.writeText(md)}
+  catch(e){const ta=document.createElement("textarea");ta.value=md;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove()}
+  toast(`已复制 ${list.length} 条收藏（Markdown）`);
+});
+$("#dExport").addEventListener("click",()=>{
+  if(!favs.size)return toast("收藏夹还是空的");
+  const data=JSON.stringify({site:"ai-atlas",exportedAt:new Date().toISOString(),favs:TOOLS.filter(t=>favs.has(t[0])).map(t=>({id:t[0],name:t[1],url:url(t)}))},null,2);
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([data],{type:"application/json"}));a.download="ai-atlas-favs.json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1e3);
+  toast("已导出收藏 JSON");
+});
+$("#dClear").addEventListener("click",()=>{
+  if(!favs.size)return toast("收藏夹还是空的");
+  favs.clear();saveFavs();updateFavUI();renderDrawer();render();toast("已清空全部收藏");
+});
+
+/* ── 回顶 / 分享 / 动态统计 ─────────── */
+const toTop=$("#toTop");
+window.addEventListener("scroll",()=>{toTop.classList.toggle("show",window.scrollY>600)},{passive:true});
+toTop.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
+$("#shareBtn").addEventListener("click",async()=>{
+  const link="https://liaojunkun.github.io/ai-atlas/";
+  if(navigator.share){try{await navigator.share({title:document.title,url:link})}catch(e){}}
+  else{
+    try{await navigator.clipboard.writeText(link)}
+    catch(e){const ta=document.createElement("textarea");ta.value=link;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove()}
+    toast("站点链接已复制，快去分享吧");
+  }
+});
+$("#asideTotal").textContent=TOOLS.length+" 款";
+$("#statTotal").textContent=TOOLS.length+" 款";
 
 /* ── 启动 ─────────────────────────── */
 renderPicks();render();updateFavUI();
