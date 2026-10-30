@@ -255,6 +255,8 @@ footer{position:relative;overflow:hidden;border-top:2px solid var(--ink);margin-
 .toast.show{opacity:1;transform:translate(-50%,0)}
 .t-seal{display:grid;place-items:center;width:22px;height:22px;background:var(--red);color:#fff;font:900 12px/1 var(--serif);transform:rotate(-8deg);flex:none}
 
+
+
 /* ── 夜览模式 ─────────────────── */
 html.dark{--paper:#181510;--paper-2:#211d15;--card:rgba(45,40,29,.55);--ink:#eae3d3;--ink-2:#b5ac97;--ink-3:#7f7767;--line:rgba(234,227,211,.14);--line-strong:rgba(234,227,211,.34);--red:#e0492f;--red-deep:#c9432a}
 html.dark body{background:radial-gradient(1200px 500px at 50% -120px,rgba(255,236,196,.05),transparent 70%),var(--paper)}
@@ -303,6 +305,33 @@ html.dark select#price{background-image:url("data:image/svg+xml;utf8,<svg xmlns=
 .tb-r{display:flex;gap:16px;align-items:center}
 .f-bottom button{border:0;background:none;font:inherit;color:inherit;letter-spacing:inherit;cursor:pointer;padding:0}
 .f-bottom button:hover{color:var(--red)}
+
+/* ── 详情弹层 ─────────────────── */
+.modal{position:fixed;inset:0;z-index:160;display:grid;place-items:center;padding:20px;pointer-events:none}
+.m-backdrop{position:absolute;inset:0;background:rgba(12,9,5,.55);opacity:0;transition:opacity .25s}
+.m-panel{position:relative;width:min(560px,100%);max-height:86vh;overflow-y:auto;background:var(--paper);border:1px solid var(--ink);border-top:5px solid var(--red);padding:28px 28px 20px;transform:translateY(16px) scale(.98);opacity:0;transition:transform .28s cubic-bezier(.2,.7,.2,1),opacity .28s;box-shadow:0 30px 70px -30px rgba(0,0,0,.5)}
+.modal.open{pointer-events:auto}
+.modal.open .m-backdrop{opacity:1}
+.modal.open .m-panel{transform:none;opacity:1}
+.m-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border:1px solid var(--line-strong);background:transparent;color:var(--ink-3);font:400 14px/1 var(--mono);cursor:pointer;border-radius:50%;transition:all .2s}
+.m-close:hover{border-color:var(--red);color:var(--red);transform:rotate(90deg)}
+.m-num{font:italic 700 36px/1 var(--serif);-webkit-text-stroke:1.2px var(--ink);color:transparent;font-optical-sizing:auto}
+.m-cat{font:500 10px var(--mono);letter-spacing:.18em;color:var(--ink-3);margin-top:8px}
+.m-name{font:900 clamp(1.5rem,5vw,1.9rem)/1.25 var(--serif);letter-spacing:.02em;margin-top:6px;padding-right:40px}
+.m-domain{font:500 12px var(--mono);color:var(--ink-2);margin-top:4px}
+.m-long{font-size:14px;color:var(--ink-2);line-height:2;border-top:1px dashed var(--line);margin-top:14px;padding-top:14px}
+.m-hot{display:inline-block;font:600 10px var(--mono);letter-spacing:.14em;color:var(--red);border:1px solid var(--red);padding:2px 7px;margin-left:8px;vertical-align:4px}
+.m-acts{display:flex;align-items:center;gap:10px;margin-top:18px}
+.m-visit{font:600 13px var(--mono);color:#f7f0e1;background:var(--red);border:1px solid var(--red);padding:10px 18px;text-decoration:none;transition:all .2s}
+.m-visit:hover{background:var(--red-deep);border-color:var(--red-deep)}
+.m-nav{display:flex;justify-content:space-between;align-items:center;margin-top:20px;padding-top:14px;border-top:1px dashed var(--line)}
+.m-pos{font:500 11px var(--mono);color:var(--ink-3)}
+.ch-intro{font-size:12.5px;color:var(--ink-2);margin:-8px 0 16px;max-width:660px;line-height:1.9}
+.ch-intro::before{content:"卷首语 ";font:700 10px var(--mono);letter-spacing:.2em;color:var(--red);margin-right:8px}
+.dr-t{font:600 10px var(--mono);letter-spacing:.24em;color:var(--red);width:100%}
+.d-recent{padding:12px 18px 10px;border-bottom:1px dashed var(--line);display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.dr-chip{font:500 11px var(--mono);border:1px solid var(--line-strong);background:none;padding:3px 9px;color:var(--ink-2);cursor:pointer;transition:all .15s}
+.dr-chip:hover{border-color:var(--red);color:var(--red)}
 
 /* ── 响应式 ───────────────────────── */
 @media (max-width:1080px){
@@ -380,6 +409,11 @@ html.dark select#price{background-image:url("data:image/svg+xml;utf8,<svg xmlns=
       <option value="paid">付费</option>
       <option value="open">开源</option>
     </select>
+    <select id="sortSel" aria-label="排序方式">
+      <option value="default">默认排序</option>
+      <option value="name">名称 A-Z</option>
+      <option value="new">编号倒序</option>
+    </select>
     <button class="btn" id="favBtn" type="button">✦ 我的收藏 <b id="favCount">0</b></button>
   </div>
   <div class="wrap tabs" id="tabs"></div>
@@ -419,16 +453,41 @@ html.dark select#price{background-image:url("data:image/svg+xml;utf8,<svg xmlns=
   </div>
 </footer>
 
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="m-backdrop" id="mBackdrop"></div>
+  <div class="m-panel" role="dialog" aria-modal="true" aria-label="工具详情" data-id="">
+    <button class="m-close" id="mClose" type="button" aria-label="关闭">✕</button>
+    <div class="m-num" id="mdNum">No.000</div>
+    <div class="m-cat" id="mdCat"></div>
+    <h3 class="m-name" id="mdName"></h3>
+    <div class="m-domain" id="mdDomain"></div>
+    <p class="m-long" id="mdLong"></p>
+    <div class="m-acts">
+      <a class="m-visit" id="mdVisit" href="#" target="_blank" rel="noopener">立即访问 ↗</a>
+      <button class="btn" id="mdCopy" type="button">复制链接</button>
+      <button class="seal seal-sm" id="mdSeal" type="button" aria-label="收藏">藏</button>
+    </div>
+    <div class="m-nav">
+      <button class="btn" id="mdPrev" type="button">← 上一款</button>
+      <span class="m-pos" id="mdPos"></span>
+      <button class="btn" id="mdNext" type="button">下一款 →</button>
+    </div>
+  </div>
+</div>
+
 <aside class="drawer" id="drawer" aria-hidden="true">
   <div class="d-backdrop" id="dBackdrop"></div>
   <div class="d-panel" role="dialog" aria-label="收藏清单">
     <header class="d-head"><h3>收藏清单 <b id="dCount">0</b></h3><button class="d-close" id="dClose" type="button" aria-label="关闭">✕</button></header>
+    <div class="d-recent" id="dRecent" hidden></div>
     <div class="d-list" id="dList"></div>
     <div class="d-empty" id="dEmpty">还没有收藏 —— 在任意卡片右上角点「藏」字圆章，把好工具收进你的图鉴。</div>
     <footer class="d-foot">
       <button class="btn" id="dCopy" type="button">复制清单</button>
-      <button class="btn" id="dExport" type="button">导出 JSON</button>
+      <button class="btn" id="dExport" type="button">导出</button>
+      <button class="btn" id="dImport" type="button">导入</button>
       <button class="btn d-danger" id="dClear" type="button">清空</button>
+      <input type="file" id="dImportFile" accept="application/json,.json" hidden>
     </footer>
   </div>
 </aside>
@@ -530,11 +589,98 @@ const TOOLS=[
   ["zapier","Zapier","zapier.com","老牌自动化平台，AI 工作流连接器","agent","freemium",0]
 ];
 
+/* 卷首语与长评（详情弹层用） */
+const CH_INTRO={
+  chat:"一切从对话开始。海外旗舰与国产新锐同台，挑一个当主力，其余当玩具。",
+  image:"从概念海报到矢量图标，机器的审美正在追平人类；把提示词当成新的画笔。",
+  video:"一句话成片不再是噱头。从影视级到短视频特效，挑对工具，人人都有制片厂。",
+  audio:"写词成歌、开口克隆，声音的护城河正在消失；创作者的嗓音从此可以备份。",
+  code:"从补全到 Agent 自主编程，工具在替你敲键盘；选型看手感，落地看工程化。",
+  write:"让会议纪要自己写自己。写作助手不代笔思想，只负责把表达擦亮。",
+  design:"排版、配色、出图，AI 接管了苦工；审美，反而成了你最值钱的部分。",
+  search:"搜索引擎开始直接给答案了。看清来源，再决定信不信——这是新规矩。",
+  agent:"从连流程到派任务，自动化长出了脑子；把重复交给它，把判断留给自己。"
+};
+const LONG={
+  chatgpt:"写作、编程、图像与数据分析的全能选手，GPT 系列旗舰；语音与生态成熟，新功能首发地，适合作为主力 AI 助手。",
+  claude:"长文理解与代码生成公认一线，文风细腻克制；Artifacts 与 Projects 适合复杂工程与深度写作。",
+  gemini:"深度绑定 Google 搜索、Gmail 与 Docs，多模态上下文长；适合全家桶用户与实时信息问答。",
+  deepseek:"国产开源旗舰，推理模式强且 API 便宜；数学与代码表现突出，免费网页版已够日常。",
+  kimi:"20 万字级长上下文，丢论文财报秒出摘要；文件解析体验成熟，学生与研究者友好。",
+  doubao:"字节生态入口，语音对话自然；日常问答、写作与图片生成均有不错水准，全家老小都能上手。",
+  tongyi:"阿里全家桶核心，文档解析与办公联动强；开源 Qwen 系列生态大，开发者可选自部署。",
+  wenxin:"百度旗舰，中文知识沉淀深；插件与智能体市场丰富，适合中文检索场景。",
+  zhipu:"GLM 系列官方应用，代码与长文本扎实；配套智能体能力，免费额度慷慨。",
+  grok:"接 X 实时数据流，热点话题反应快；风格直率幽默，适合社媒观察与实时讨论。",
+  "copilot-ms":"深植 Windows 与 Office，Word/Excel/Outlook 内直接调用；办公文档处理顺手。",
+  poe:"一个订阅通吃 GPT、Claude、Gemini 等多家模型，还有社区机器人；适合想同时体验多模型的人。",
+  mistral:"欧洲代表，Le Chat 界面清爽响应快；开源模型家族可自部署，数据合规友好。",
+  xfyun:"科大讯飞出品，语音交互与中文教育场景强；配套办公硬件生态，学习辅助好用。",
+  midjourney:"艺术风格与氛围感天花板，社区广场灵感海量；需订阅使用，设计师出概念图首选。",
+  sd:"开源可本地部署，可控性最强；配合 ControlNet/LoRA 玩法丰富，折腾党与独立开发者首选。",
+  ideogram:"海报级排版与文字渲染准确，中文标语也能画；免费额度足，做封面配图省心。",
+  leonardo:"游戏素材与概念艺术向，模型市场丰富；每日免费额度，素材党友好。",
+  recraft:"矢量与品牌风格独树一帜，可生成可编辑 SVG；UI 图标与品牌视觉首选。",
+  firefly:"商用版权安全，PS/AI 内直接生成；与 Adobe 工作流无缝，商业设计稳。",
+  jimeng:"字节出品，图片视频一体；中文语义理解好，与剪映联动顺滑。",
+  krea:"实时画布所见即所得，放大与增强出色；设计师实时探索构图的新玩具。",
+  sora:"OpenAI 视频旗舰，叙事与物理感强；支持 Remix 与故事板，概念短片利器。",
+  runway:"Gen 系列影视级生成，Motion Brush 等控制精细；好莱坞团队也在用的工作流。",
+  kling:"国产视频生成第一梯队，动作幅度大且物理稳；每日免费额度，中文创作者友好。",
+  pika:"轻量趣味，Pikaffects 特效让照片动起来；短视频玩法多，上手零门槛。",
+  luma:"3D 质感与运镜自然，可交互世界模型探索中；免费档可用。",
+  heygen:"数字人口播与视频翻译，口型自然；做跨境电商与多语言内容神器。",
+  hailuo:"MiniMax 出品，文生视频动作流畅；配套语音能力，中文内容创作一站搞定。",
+  suno:"写词选曲一键成歌，人声编曲完整；音质代代进化，玩音乐最快入口。",
+  udio:"音质与人声细腻，社区 remix 文化浓；适合对音乐质感更挑剔的创作者。",
+  elevenlabs:"语音克隆与多语言 TTS 标杆，情感自然；做播客配音与本地化首选。",
+  fish:"开源语音合成，中文效果亮眼；自部署门槛低，开发者友好。",
+  adbp:"浏览器降噪一绝，Enhance 语音一键广播级；播客与网课录音救星。",
+  "gh-copilot":"代码补全行业标准，IDE 集成最广；学生与开源作者免费，团队默认选项。",
+  cursor:"AI 原生编辑器标杆，Tab 补全与 Composer 体验顺滑；用过就回不去。",
+  windsurf:"Agent Flow 自动感知意图，多文件编辑稳；与 Cursor 二选一的新锐。",
+  "claude-code":"终端里的编程智能体，直读仓库自主改代码；复杂重构与长任务强。",
+  v0:"Vercel 出品，一句话出 React + Tailwind 界面；前端原型最快通道。",
+  bolt:"浏览器内全栈运行时，提示词直接跑应用；演示与 MVP 神器。",
+  lovable:"对话式全栈搭建，集成认证与数据库；非程序员也能上线产品。",
+  replit:"云端 IDE + Agent 从想法到部署一条龙；教学与协作场景成熟。",
+  trae:"字节出品免费 AI IDE，中文体验好；内置主流模型，学生与新手友好。",
+  lingma:"阿里出品，企业级代码助手；中文注释理解好，支持私有化部署。",
+  devv:"程序员向 AI 搜索，答案带代码与出处；替代搜索引擎查文档。",
+  hf:"开源模型宇宙中心，Spaces 直接试玩；找模型、下权重必逛。",
+  zed:"Rust 写的高性能编辑器，协作流畅；开源后社区活跃，极客之选。",
+  notion:"文档内写作/翻译/摘要随手调用；问答覆盖整个工作区，知识管理一体。",
+  grammarly:"英文语法语气实时纠正，浏览器全站覆盖；留学职场刚需。",
+  xiezuocat:"中文校对改写专业，公文论文模式全；免费额度够用。",
+  notebooklm:"喂文档变专家，引用严格不出戏；音频摘要生成播客对谈，学习方法论新物种。",
+  "feishu-min":"会议录音转写精准，待办摘要自动；与飞书文档生态联动。",
+  otter:"英文会议实时转写老牌，Zoom/Meet 集成顺；免费每月 300 分钟。",
+  tldv:"会议录制 + AI 摘要 + 高光剪辑；跨时区团队异步协作利器。",
+  gamma:"一句话生成整套演示，卡片式编辑顺手；导出 PPT/PDF 皆可。",
+  canva:"模板宇宙 + AI 全家桶（抠图/文生图/品牌套件）；非设计师救星。",
+  figma:"界面设计协作标准，Figma AI 生成初稿；组件与插件生态无敌。",
+  jsdesign:"国产协作设计平台，免费个人版慷慨；AI 生成 UI 与图标，中文社区资源多。",
+  motiff:"AI 驱动 UI 设计，智能布局与组件识别；国产生态新锐。",
+  beautiful:"规则驱动自动排版，改内容不破版；商务汇报省心。",
+  gaoding:"国民级平面模板库，海报电商物料全；在线编辑零门槛。",
+  perplexity:"答案引擎标杆，每个结论带引用；学术模式强，研究查证首选。",
+  metaso:"无广告直达结构化结果，大纲 + 思维导图；学术频道查文献好用。",
+  kagi:"付费去广告，人工加权结果干净；搜索洁癖与重度用户首选。",
+  phind:"开发者问答搜索，技术答案带版本语境；查报错文档快。",
+  you:"多模型聚合搜索，可定制信息源；隐私做得不错。",
+  exa:"语义搜索 API，给 AI 应用当外脑；开发者做 RAG 检索首选。",
+  coze:"字节出品零代码 Bot 平台，插件知识库丰富；一键发布到微信/飞书。",
+  dify:"开源 LLM 应用平台，可视化编排 + RAG；企业私有化部署首选。",
+  n8n:"开源工作流自动化，400+ 集成；AI Agent 节点加持，自托管可控。",
+  manus:"通用智能体交付结果，多任务云端执行；探索 Agent 能力边界的好样本。",
+  zapier:"全球最大自动化平台，8000+ 应用集成；AI Actions 让工作流开口说话。"
+};
+
 /* ── 状态 ─────────────────────────── */
 const $=s=>document.querySelector(s);
 const url=t=>"https://"+t[2];
 const catOf=id=>CATS.find(c=>c[0]===id);
-const state={q:"",cat:"all",price:"all",favOnly:false};
+const state={q:"",cat:"all",price:"all",favOnly:false,sort:"default"};
 let favs=new Set();
 try{favs=new Set(JSON.parse(localStorage.getItem("ai-atlas-favs")||"[]"))}catch(e){}
 const saveFavs=()=>{try{localStorage.setItem("ai-atlas-favs",JSON.stringify([...favs]))}catch(e){}};
@@ -589,13 +735,17 @@ function render(){
     if(q){const hay=(t[1]+" "+t[2]+" "+t[3]+" "+catOf(t[4])[1]).toLowerCase();if(!hay.includes(q))return false}
     return true;
   };
-  let total=0,html="";
+  let total=0,html="";lastVisibleIds=[];
   CATS.forEach((c,ci)=>{
     if(state.cat!=="all"&&state.cat!==c[0])return;
-    const list=TOOLS.map((t,i)=>[t,i]).filter(([t])=>t[4]===c[0]&&match(t));
+    let list=TOOLS.map((t,i)=>[t,i]).filter(([t])=>t[4]===c[0]&&match(t));
     if(!list.length)return;
+    if(state.sort==="name")list.sort((a,b)=>a[0][1].localeCompare(b[0][1],"zh-Hans-CN",{numeric:true}));
+    else if(state.sort==="new")list.sort((a,b)=>b[1]-a[1]);
     total+=list.length;
-    html+=`<section class="chapter"><header class="ch-head"><span class="ch-no">卷${CN[ci]}</span><h2>${c[1]}</h2><span class="ch-en">${c[2]}</span><span class="ch-count">${list.length} 款</span></header><div class="ch-grid">${list.map(([t,i])=>cardHTML(t,i)).join("")}</div></section>`;
+    list.forEach(([t])=>lastVisibleIds.push(t[0]));
+    const intro=CH_INTRO[c[0]]?`<p class="ch-intro">${CH_INTRO[c[0]]}</p>`:"";
+    html+=`<section class="chapter"><header class="ch-head"><span class="ch-no">卷${CN[ci]}</span><h2>${c[1]}</h2><span class="ch-en">${c[2]}</span><span class="ch-count">${list.length} 款</span></header>${intro}<div class="ch-grid">${list.map(([t,i])=>cardHTML(t,i)).join("")}</div></section>`;
   });
   $("#chapters").innerHTML=html;
   const empty=$("#empty");
@@ -651,6 +801,7 @@ function toggleFav(id,name){
   const now=!favs.has(id);
   if(now)favs.add(id);else favs.delete(id);
   saveFavs();updateFavUI();
+  if(drawer.classList.contains("open"))renderDrawer();
   toast(now?`已收入我的收藏「${name}」`:`已从收藏移出「${name}」`);
   if(state.favOnly){render()}
   else{
@@ -661,6 +812,7 @@ function toggleFav(id,name){
 }
 document.body.addEventListener("click",e=>{
   const s=e.target.closest(".seal");if(!s)return;
+  if(s.closest("#modal"))return;
   const holder=s.closest("[data-id]");if(!holder)return;
   const t=TOOLS.find(x=>x[0]===holder.dataset.id);if(t)toggleFav(t[0],t[1]);
 });
@@ -678,17 +830,17 @@ $("#favBtn").addEventListener("click",toggleFavOnly);
 function syncTabs(){[...tabsEl.children].forEach(b=>b.classList.toggle("on",b.dataset.cat===state.cat))}
 function syncControls(){
   qInput.value=state.q;$("#qClear").hidden=!state.q;
-  $("#price").value=state.price;syncTabs();updateFavUI();
+  $("#price").value=state.price;$("#sortSel").value=state.sort;syncTabs();updateFavUI();
 }
 $("#resetBtn").addEventListener("click",()=>{
-  Object.assign(state,{q:"",cat:"all",price:"all",favOnly:false});
+  Object.assign(state,{q:"",cat:"all",price:"all",favOnly:false,sort:"default"});
   syncControls();render();
 });
 
 /* ── 手气不错 ─────────────────────── */
 $("#lucky").addEventListener("click",()=>{
   const t=TOOLS[Math.floor(Math.random()*TOOLS.length)];
-  Object.assign(state,{q:"",cat:"all",price:"all",favOnly:false});
+  Object.assign(state,{q:"",cat:"all",price:"all",favOnly:false,sort:"default"});
   syncControls();render();
   requestAnimationFrame(()=>{
     const el=document.querySelector(`.card[data-id="${t[0]}"]`);
@@ -705,6 +857,93 @@ $("#lucky").addEventListener("click",()=>{
   const items=TOOLS.map(t=>`<span>${t[1]}</span><i>✦</i>`).join("");
   $("#tickerTrack").innerHTML=`<div class="tk-g">${items}</div><div class="tk-g">${items}</div>`;
 })();
+
+/* ── 详情弹层 / 最近查看 / 收藏导入 ─────── */
+let lastVisibleIds=[];
+let recent=[];
+try{recent=JSON.parse(localStorage.getItem("ai-atlas-recent")||"[]")}catch(e){}
+function pushRecent(id){
+  recent=[id,...recent.filter(x=>x!==id)].slice(0,8);
+  try{localStorage.setItem("ai-atlas-recent",JSON.stringify(recent))}catch(e){}
+}
+const modal=$("#modal"),mPanel=modal.querySelector(".m-panel");
+let currentDetailId=null;
+function openDetail(id){
+  const t=TOOLS.find(x=>x[0]===id);if(!t)return;
+  currentDetailId=id;
+  const idx=lastVisibleIds.indexOf(id);
+  mPanel.dataset.id=id;
+  $("#mdNum").textContent="No."+String(TOOLS.indexOf(t)+1).padStart(3,"0");
+  $("#mdCat").textContent=catOf(t[4])[1]+" · "+PRICE[t[5]];
+  $("#mdName").innerHTML=t[1]+(t[6]?'<span class="m-hot">✶ 编辑力荐</span>':"");
+  $("#mdDomain").textContent=t[2];
+  $("#mdLong").textContent=LONG[t[0]]||t[3];
+  $("#mdVisit").href=url(t);
+  $("#mdSeal").classList.toggle("on",favs.has(id));
+  $("#mdSeal").setAttribute("aria-pressed",String(favs.has(id)));
+  const hasNav=idx>-1&&lastVisibleIds.length>1;
+  $("#mdPrev").hidden=!hasNav;$("#mdNext").hidden=!hasNav;
+  $("#mdPos").textContent=hasNav?`${idx+1} / ${lastVisibleIds.length}`:"";
+  pushRecent(id);
+  modal.classList.add("open");modal.setAttribute("aria-hidden","false");
+}
+function closeDetail(){modal.classList.remove("open");modal.setAttribute("aria-hidden","true");currentDetailId=null}
+function navDetail(step){
+  const idx=lastVisibleIds.indexOf(currentDetailId);
+  if(idx<0)return;
+  const next=(idx+step+lastVisibleIds.length)%lastVisibleIds.length;
+  openDetail(lastVisibleIds[next]);
+}
+$("#mClose").addEventListener("click",closeDetail);
+$("#mBackdrop").addEventListener("click",closeDetail);
+$("#mdPrev").addEventListener("click",()=>navDetail(-1));
+$("#mdNext").addEventListener("click",()=>navDetail(1));
+$("#mdSeal").addEventListener("click",()=>{
+  if(!currentDetailId)return;
+  const t=TOOLS.find(x=>x[0]===currentDetailId);
+  toggleFav(t[0],t[1]);
+  $("#mdSeal").classList.toggle("on",favs.has(t[0]));
+  $("#mdSeal").setAttribute("aria-pressed",String(favs.has(t[0])));
+});
+$("#mdCopy").addEventListener("click",async()=>{
+  const t=TOOLS.find(x=>x[0]===currentDetailId);if(!t)return;
+  try{await navigator.clipboard.writeText(url(t))}
+  catch(e){const ta=document.createElement("textarea");ta.value=url(t);document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove()}
+  toast(`已复制「${t[1]}」链接`);
+});
+$("#chapters").addEventListener("click",e=>{
+  if(e.target.closest("a")||e.target.closest(".seal"))return;
+  const card=e.target.closest("[data-id]");if(!card)return;
+  openDetail(card.dataset.id);
+});
+$("#picksGrid").addEventListener("click",e=>{
+  if(e.target.closest("a")||e.target.closest(".seal"))return;
+  const card=e.target.closest("[data-id]");if(!card)return;
+  openDetail(card.dataset.id);
+});
+$("#dRecent").addEventListener("click",e=>{
+  const chip=e.target.closest("[data-open]");if(!chip)return;
+  closeDrawer();openDetail(chip.dataset.open);
+});
+$("#dImport").addEventListener("click",()=>$("#dImportFile").click());
+$("#dImportFile").addEventListener("change",e=>{
+  const file=e.target.files[0];e.target.value="";
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const data=JSON.parse(reader.result);
+      const arr=Array.isArray(data)?data:(data.favs||[]);
+      const ids=arr.map(x=>typeof x==="string"?x:x.id).filter(id=>TOOLS.some(t=>t[0]===id));
+      if(!ids.length)return toast("文件里没有可识别的收藏");
+      ids.forEach(id=>favs.add(id));
+      saveFavs();updateFavUI();renderDrawer();if(state.favOnly)render();
+      toast(`已导入 ${ids.length} 条收藏`);
+    }catch(err){toast("文件解析失败，请用导出的 JSON")}
+  };
+  reader.readAsText(file);
+});
+$("#sortSel").addEventListener("change",e=>{state.sort=e.target.value;render()});
 
 /* ── 夜览模式 ─────────────────────── */
 const themeBtn=$("#themeBtn");
@@ -727,6 +966,9 @@ function renderDrawer(){
   const list=TOOLS.filter(t=>favs.has(t[0]));
   $("#dCount").textContent=list.length;
   $("#dEmpty").hidden=list.length>0;
+  const rec=recent.map(id=>{const t=TOOLS.find(x=>x[0]===id);return t?`<button class="dr-chip" data-open="${t[0]}" type="button">${t[1]}</button>`:""}).join("");
+  $("#dRecent").hidden=!recent.length;
+  $("#dRecent").innerHTML='<span class="dr-t">最近查看</span>'+(recent.length?rec:"");
   $("#dList").innerHTML=list.map(t=>`<div class="d-item"><a class="d-item-name" href="${url(t)}" target="_blank" rel="noopener">${t[1]}</a><span class="d-item-domain">${t[2]}</span><button class="d-del" data-del="${t[0]}" type="button" aria-label="移除 ${t[1]}">✕</button></div>`).join("");
 }
 function openDrawer(){renderDrawer();drawer.classList.add("open");drawer.setAttribute("aria-hidden","false")}
@@ -735,7 +977,12 @@ $("#favTop").addEventListener("click",openDrawer);
 $("#dClose").addEventListener("click",closeDrawer);
 $("#dBackdrop").addEventListener("click",closeDrawer);
 document.addEventListener("keydown",e=>{
-  if(e.key==="Escape")closeDrawer();
+  if(e.key==="Escape"){closeDrawer();closeDetail()}
+  if(modal.classList.contains("open")){
+    if(e.key==="ArrowLeft")navDetail(-1);
+    if(e.key==="ArrowRight")navDetail(1);
+    return;
+  }
   if(e.key==="/"&&!/INPUT|TEXTAREA|SELECT/.test((document.activeElement||{}).tagName||"")){e.preventDefault();qInput.focus()}
 });
 $("#dList").addEventListener("click",e=>{
