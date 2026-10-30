@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 工具年鉴 · The AI Atlas — 收藏 59 款热门 AI 工具</title>
+<meta name="description" content="一份免登录的 AI 工具图鉴：聚合 59 款热门 AI 工具，九卷分类、编辑精选、即时检索与本地收藏，以朱印为记。">
+<meta name="theme-color" content="#f5f0e4">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23c6301c'/%3E%3Ctext x='32' y='45' font-size='36' text-anchor='middle' fill='%23f5f0e4' font-family='serif' font-weight='900'%3E%E8%97%8F%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f5f0e4; --paper-2:#ece5d3; --card:rgba(255,253,246,.55);
+  --ink:#201c14; --ink-2:#5f5747; --ink-3:#8a8171;
+  --line:rgba(32,28,20,.16); --line-strong:rgba(32,28,20,.42);
+  --red:#c6301c; --red-deep:#9c2110; --gold:#8f7322; --green:#34694a; --teal:#2f5e68;
+  --serif:'Fraunces','Noto Serif SC','Songti SC','STSong','SimSun',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'Cascadia Mono',Consolas,'Noto Sans SC',monospace;
+  --sans:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:96px}
+body{
+  font-family:var(--sans);color:var(--ink);line-height:1.65;
+  background:radial-gradient(1200px 500px at 50% -120px,rgba(255,255,255,.55),transparent 70%),var(--paper);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+/* 纸张颗粒 */
+body::before{
+  content:"";position:fixed;inset:0;z-index:130;pointer-events:none;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0'/></filter><rect width='180' height='180' filter='url(%23n)'/></svg>");
+}
+::selection{background:var(--red);color:var(--paper)}
+a{color:inherit}
+button{font-family:inherit;cursor:pointer}
+:focus-visible{outline:2px dashed var(--red);outline-offset:2px}
+::-webkit-scrollbar{width:10px;height:8px}
+::-webkit-scrollbar-thumb{background:var(--line-strong);border:3px solid var(--paper);border-radius:8px}
+::-webkit-scrollbar-track{background:transparent}
+.wrap{max-width:1180px;margin-inline:auto;padding-inline:clamp(16px,4vw,44px)}
+
+/* ── 顶栏 ─────────────────────────── */
+.topbar{border-bottom:1px solid var(--line-strong)}
+.tb-in{display:flex;justify-content:space-between;align-items:center;padding-block:10px}
+.tb-brand{font:700 14px/1 var(--serif);text-decoration:none;letter-spacing:.04em}
+.tb-brand sup{font:600 9px var(--mono);letter-spacing:.18em;color:var(--red);margin-left:6px}
+.tb-link{border:0;background:none;font:500 12px var(--sans);color:var(--ink-2);display:inline-flex;gap:6px;align-items:center;padding:4px 2px}
+.tb-link:hover{color:var(--red)}
+.tb-link b{font:700 11px var(--mono)}
+.tb-link.on{color:var(--red)}
+
+/* ── 报头 ─────────────────────────── */
+.masthead{padding-top:26px}
+.folio{
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px 18px;
+  border-top:2px solid var(--ink);border-bottom:1px solid var(--line-strong);
+  padding:9px 2px;margin-bottom:36px;
+  font:500 10.5px var(--mono);letter-spacing:.14em;color:var(--ink-2);
+}
+.m-grid{display:grid;grid-template-columns:1fr 300px;gap:44px;align-items:end;padding-bottom:34px}
+.m-title{
+  font:900 clamp(3.1rem,9vw,7rem)/1.04 var(--serif);letter-spacing:.015em;
+  animation:rise .7s cubic-bezier(.2,.7,.2,1) .08s both;
+}
+.m-title em{font:italic 700 .94em var(--display,var(--serif));color:var(--red);margin-right:.02em;font-optical-sizing:auto}
+.m-seal{
+  display:inline-grid;place-items:center;width:.68em;height:.68em;margin-left:.16em;vertical-align:.06em;
+  background:var(--red);color:#f7f0e1;font:900 .34em/1 var(--serif);
+  transform:rotate(-8deg);box-shadow:0 3px 0 rgba(156,33,16,.35);
+}
+.m-sub{
+  font:500 11.5px var(--mono);letter-spacing:.18em;color:var(--ink-3);margin-top:16px;
+  animation:rise .7s cubic-bezier(.2,.7,.2,1) .16s both;
+}
+.m-stand{max-width:560px;font-size:15px;color:var(--ink-2);margin-top:16px;animation:rise .7s cubic-bezier(.2,.7,.2,1) .24s both}
+.m-stand strong{color:var(--red-deep);font-weight:700}
+.m-aside{
+  border:1px solid var(--line-strong);background:var(--card);padding:20px 20px 18px;
+  animation:rise .7s cubic-bezier(.2,.7,.2,1) .32s both;
+}
+.m-aside h5{font:700 13px var(--serif);letter-spacing:.2em;border-bottom:1px solid var(--line-strong);padding-bottom:9px;margin-bottom:6px}
+.m-aside dl div{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--line)}
+.m-aside dt{font-size:12.5px;color:var(--ink-2)}
+.m-aside dd{font:700 14px var(--serif)}
+.lucky-btn{
+  width:100%;margin-top:14px;background:var(--ink);color:var(--paper);border:0;
+  padding:11px 0;font:700 13px var(--sans);letter-spacing:.24em;text-indent:.24em;
+  transition:background .2s,transform .15s;
+}
+.lucky-btn:hover{background:var(--red)}
+.lucky-btn:active{transform:translateY(1px)}
+
+/* ── 快讯横带 ─────────────────────── */
+.ticker{overflow:hidden;border-block:1px solid var(--line-strong);background:rgba(255,252,244,.4)}
+.ticker-track{display:flex;width:max-content;animation:tick 60s linear infinite;padding:8px 0}
+.ticker:hover .ticker-track{animation-play-state:paused}
+.tk-g{display:flex;align-items:center}
+.tk-g span{font:500 12px var(--mono);color:var(--ink-2);white-space:nowrap}
+.tk-g i{font-style:normal;color:var(--red);margin:0 16px;font-size:10px}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* ── 工具栏（吸顶） ─────────────────── */
+.toolbar{
+  position:sticky;top:0;z-index:60;margin-top:30px;
+  background:rgba(245,240,228,.94);backdrop-filter:blur(8px);
+  border-bottom:2px solid var(--ink);
+}
+.bar-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:14px 0 10px}
+.search{flex:1 1 250px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line-strong);padding:6px 2px;transition:border-color .2s}
+.search:focus-within{border-color:var(--red)}
+.search label{font:600 11px var(--mono);letter-spacing:.2em;color:var(--red)}
+.search input{flex:1;border:0;background:transparent;font:400 14px var(--sans);color:var(--ink);outline:none;min-width:0}
+.search input::placeholder{color:var(--ink-3)}
+.q-clear{border:0;background:none;color:var(--ink-3);font-size:13px;padding:0 2px}
+.q-clear:hover{color:var(--red)}
+select#price{
+  appearance:none;-webkit-appearance:none;border:1px solid var(--line-strong);background:transparent;color:var(--ink-2);
+  font:500 12px var(--mono);padding:8px 28px 8px 12px;cursor:pointer;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M1 1l4 4 4-4' stroke='%235f5747' fill='none' stroke-width='1.5'/></svg>");
+  background-repeat:no-repeat;background-position:right 10px center;
+}
+.btn{
+  display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line-strong);background:transparent;
+  padding:8px 13px;font:600 12px var(--sans);color:var(--ink-2);transition:all .2s;white-space:nowrap;
+}
+.btn:hover{border-color:var(--ink);color:var(--ink)}
+.btn.on{background:var(--red);border-color:var(--red);color:#f7f0e1}
+.btn b{font:700 11px var(--mono)}
+.tabs{display:flex;gap:22px;overflow-x:auto;padding:2px 0 12px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+  white-space:nowrap;border:0;background:none;padding:6px 1px;font:500 13px var(--sans);color:var(--ink-2);
+  border-bottom:2px solid transparent;transition:color .15s,border-color .15s;
+}
+.tab b{font:600 10.5px var(--mono);color:var(--ink-3);margin-left:3px}
+.tab:hover{color:var(--ink)}
+.tab.on{color:var(--red);border-color:var(--red)}
+.tab.on b{color:var(--red)}
+
+/* ── 编辑精选 ─────────────────────── */
+.sec-head{border-top:2px solid var(--ink);padding-top:11px;margin:46px 0 22px;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.sec-head h2{font:900 clamp(1.4rem,3vw,1.7rem)/1 var(--serif);letter-spacing:.08em}
+.sec-en{font:600 10px var(--mono);letter-spacing:.24em;color:var(--ink-3)}
+.picks-grid{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line-strong);background:var(--card)}
+.pick{padding:24px 20px 18px;border-left:1px solid var(--line);display:flex;flex-direction:column;gap:8px;position:relative}
+.pick:first-child{border-left:0}
+.p-num{font:italic 700 46px/1 var(--serif);-webkit-text-stroke:1.4px var(--ink);color:transparent;transition:all .25s;font-optical-sizing:auto}
+.pick:hover .p-num{-webkit-text-stroke-color:var(--red)}
+.p-cat{font:500 10px var(--mono);letter-spacing:.14em;color:var(--ink-3)}
+.pick h3{font:800 19px/1.3 var(--serif);letter-spacing:.02em}
+.p-blurb{font-size:13px;color:var(--ink-2);line-height:1.75}
+.p-foot{margin-top:auto;padding-top:14px;display:flex;align-items:center;justify-content:space-between;border-top:1px dashed var(--line)}
+.p-foot a{font:600 12px var(--mono);color:var(--red-deep);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .15s}
+.p-foot a:hover{border-color:var(--red-deep)}
+
+/* ── 朱印收藏章 ────────────────────── */
+.seal{
+  width:34px;height:34px;border-radius:50%;flex:none;
+  border:1.5px dashed var(--line-strong);background:transparent;color:var(--ink-3);
+  font:700 14px/1 var(--serif);display:grid;place-items:center;
+  transition:transform .2s,color .2s,border-color .2s,background .2s;
+}
+.seal:hover{border-color:var(--red);color:var(--red);transform:rotate(-6deg) scale(1.06)}
+.seal.on{
+  background:var(--red);border:1.5px solid var(--red-deep);color:#f7f0e1;
+  transform:rotate(-8deg);box-shadow:inset 0 0 0 2px rgba(247,240,225,.28),0 2px 6px -2px rgba(156,33,16,.5);
+  animation:stamp .38s cubic-bezier(.2,.9,.3,1.4);
+}
+.seal-sm{width:30px;height:30px;font-size:12.5px;position:static}
+@keyframes stamp{
+  0%{transform:scale(1.9) rotate(10deg);opacity:0}
+  55%{transform:scale(.9) rotate(-11deg);opacity:1}
+  78%{transform:scale(1.07) rotate(-7deg)}
+  100%{transform:scale(1) rotate(-8deg)}
+}
+
+/* ── 分卷目录 ─────────────────────── */
+.chapter{margin-top:46px}
+.ch-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;border-top:2px solid var(--ink);padding-top:10px;margin-bottom:18px}
+.ch-no{font:700 13px var(--serif);letter-spacing:.14em;color:var(--red)}
+.ch-head h2{font:900 22px/1 var(--serif);letter-spacing:.08em}
+.ch-en{font:600 9.5px var(--mono);letter-spacing:.26em;color:var(--ink-3)}
+.ch-count{margin-left:auto;font:500 11px var(--mono);color:var(--ink-3)}
+.ch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:14px 16px}
+
+.card{
+  position:relative;display:flex;flex-direction:column;gap:9px;
+  border:1px solid var(--line);background:var(--card);padding:17px 16px 14px;padding-right:52px;
+  transition:transform .22s,box-shadow .22s,border-color .22s,background .22s;
+}
+.card:hover{transform:translateY(-3px);border-color:var(--ink);background:rgba(255,253,246,.85);box-shadow:0 14px 28px -20px rgba(32,28,20,.55)}
+.card .seal{position:absolute;top:12px;right:12px}
+.c-top{display:flex;align-items:baseline;gap:9px}
+.c-idx{font:500 10.5px var(--mono);letter-spacing:.1em;color:var(--ink-3)}
+.c-hot{font:600 10px var(--mono);letter-spacing:.12em;color:var(--red)}
+.c-name{font:700 17px/1.35 var(--serif);letter-spacing:.02em}
+.c-name a{text-decoration:none;transition:color .15s}
+.c-name a:hover{color:var(--red);text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+.c-desc{
+  font-size:12.5px;color:var(--ink-2);line-height:1.7;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.c-foot{margin-top:auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap;border-top:1px dashed var(--line);padding-top:10px;font:500 11px var(--mono)}
+.c-cat{color:var(--ink-2)}
+.c-dot{color:var(--ink-3)}
+.p-free{color:var(--green);font-weight:600}
+.p-freemium{color:var(--gold);font-weight:600}
+.p-paid{color:var(--ink-3)}
+.p-open{color:var(--teal);font-weight:600}
+.c-go{margin-left:auto;color:var(--ink-3);text-decoration:none;white-space:nowrap;transition:color .15s}
+.c-go:hover{color:var(--red)}
+.card.lucky{animation:lucky 2.4s ease}
+@keyframes lucky{
+  0%,55%{box-shadow:0 0 0 3px var(--red),0 0 0 14px rgba(198,48,28,.14);border-color:var(--red)}
+  100%{box-shadow:none}
+}
+
+/* 入场显现 */
+.card,.pick{opacity:0;transform:translateY(16px)}
+.card.in,.pick.in{opacity:1;transform:none;transition:opacity .55s ease,transform .55s cubic-bezier(.2,.7,.2,1)}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}}
+
+/* ── 空态 ─────────────────────────── */
+.empty{border:1px dashed var(--line-strong);padding:64px 20px;text-align:center;margin-top:46px}
+.empty h3{font:900 20px var(--serif);letter-spacing:.14em}
+.empty p{font-size:13px;color:var(--ink-3);margin:10px 0 18px}
+.empty button{border:1px solid var(--ink);background:transparent;padding:9px 22px;font:600 12.5px var(--sans);letter-spacing:.2em;transition:all .2s}
+.empty button:hover{background:var(--ink);color:var(--paper)}
+
+/* ── 版权页 ───────────────────────── */
+footer{position:relative;overflow:hidden;border-top:2px solid var(--ink);margin-top:76px;background:linear-gradient(180deg,var(--paper),var(--paper-2))}
+.f-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:40px;padding:46px 0 34px;position:relative;z-index:1}
+.f-grid h4{font:800 15px var(--serif);letter-spacing:.12em;margin-bottom:10px}
+.f-grid h4::before{content:"§ ";color:var(--red)}
+.f-grid p{font-size:12.5px;color:var(--ink-2);line-height:1.85}
+.f-bottom{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line-strong);padding:14px 0 42px;font:500 11px var(--mono);letter-spacing:.08em;color:var(--ink-3);position:relative;z-index:1}
+.f-bottom a{text-decoration:none;color:var(--ink-3)}
+.f-bottom a:hover{color:var(--red)}
+.f-mark{
+  position:absolute;right:-36px;bottom:-88px;font:900 280px/1 var(--serif);
+  color:transparent;-webkit-text-stroke:1px rgba(32,28,20,.09);pointer-events:none;user-select:none;
+}
+
+/* ── 提示条 ───────────────────────── */
+.toast{
+  position:fixed;left:50%;bottom:26px;transform:translate(-50%,16px);opacity:0;pointer-events:none;
+  display:flex;gap:11px;align-items:center;background:var(--ink);color:#f5efe2;
+  padding:11px 18px;font:500 13px var(--sans);z-index:200;box-shadow:0 14px 34px -12px rgba(0,0,0,.45);
+  transition:opacity .28s,transform .28s;max-width:86vw;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.t-seal{display:grid;place-items:center;width:22px;height:22px;background:var(--red);color:#fff;font:900 12px/1 var(--serif);transform:rotate(-8deg);flex:none}
+
+/* ── 响应式 ───────────────────────── */
+@media (max-width:1080px){
+  .picks-grid{grid-template-columns:1fr 1fr}
+  .pick:nth-child(3){border-left:0}
+  .pick:nth-child(n+3){border-top:1px solid var(--line)}
+  .m-grid{grid-template-columns:1fr;gap:30px;align-items:start}
+  .m-aside{max-width:420px}
+}
+@media (max-width:640px){
+  .picks-grid{grid-template-columns:1fr}
+  .pick{border-left:0}
+  .pick:nth-child(n+2){border-top:1px solid var(--line)}
+  .f-grid{grid-template-columns:1fr;gap:26px}
+  .folio span:nth-child(n+3){display:none}
+  .ch-head h2{font-size:19px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .card,.pick{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap tb-in">
+    <a class="tb-brand" href="#top">AI 工具年鉴<sup>THE AI ATLAS</sup></a>
+    <button class="tb-link" id="favTop" type="button">我的收藏 <b id="favTopN">0</b></button>
+  </div>
+</header>
+
+<section class="masthead wrap" id="top">
+  <div class="folio">
+    <span>THE AI ATLAS · A FIELD GUIDE</span>
+    <span>第 001 期 · 创刊号</span>
+    <span>2026 年 10 月 30 日 · 星期五</span>
+    <span>私藏版 · 免登录</span>
+  </div>
+  <div class="m-grid">
+    <div>
+      <h1 class="m-title"><em>AI</em> 工具年鉴<span class="m-seal">藏</span></h1>
+      <p class="m-sub">A FIELD GUIDE TO 59 ARTIFICIAL INTELLIGENCE TOOLS</p>
+      <p class="m-stand">本鉴辑录当下最值得收录的 <strong>59 款热门 AI 工具</strong>，按用途分作九卷；支持即时检索、按卷浏览与编辑精选。收藏以<strong>朱印</strong>为记，存于本机浏览器，无需注册登录。</p>
+    </div>
+    <aside class="m-aside">
+      <h5>本卷提要</h5>
+      <dl>
+        <div><dt>收录工具</dt><dd>59 款</dd></div>
+        <div><dt>分类卷次</dt><dd>九卷</dd></div>
+        <div><dt>编辑精选</dt><dd>4 款</dd></div>
+        <div><dt>我的收藏</dt><dd id="asideFav">0 枚</dd></div>
+      </dl>
+      <button class="lucky-btn" id="lucky" type="button">✦ 手气不错</button>
+    </aside>
+  </div>
+</section>
+
+<div class="ticker" aria-hidden="true"><div class="ticker-track" id="tickerTrack"></div></div>
+
+<section class="toolbar" id="toolbar">
+  <div class="wrap bar-row">
+    <div class="search">
+      <label for="q">检索</label>
+      <input id="q" type="search" placeholder="工具名 / 域名 / 用途，如「视频」「写作」…" autocomplete="off">
+      <button class="q-clear" id="qClear" type="button" hidden aria-label="清空检索">✕</button>
+    </div>
+    <select id="price" aria-label="按定价筛选">
+      <option value="all">全部定价</option>
+      <option value="free">免费</option>
+      <option value="freemium">基础免费</option>
+      <option value="paid">付费</option>
+      <option value="open">开源</option>
+    </select>
+    <button class="btn" id="favBtn" type="button">✦ 我的收藏 <b id="favCount">0</b></button>
+  </div>
+  <div class="wrap tabs" id="tabs"></div>
+</section>
+
+<main class="wrap">
+  <div class="sec-head"><h2>编辑精选</h2><span class="sec-en">EDITORS&rsquo; PICKS · VOL.001</span></div>
+  <div class="picks-grid" id="picksGrid"></div>
+  <div id="chapters"></div>
+  <div class="empty" id="empty" hidden>
+    <h3 id="emptyTitle">无检索结果</h3>
+    <p id="emptyDesc">换个关键词，或重置筛选再试。</p>
+    <button id="resetBtn" type="button">重置筛选</button>
+  </div>
+</main>
+
+<footer>
+  <span class="f-mark">藏</span>
+  <div class="wrap f-grid">
+    <div>
+      <h4>关于本鉴</h4>
+      <p>《AI 工具年鉴》是一份静态、免登录的 AI 工具图鉴，条目整理自各产品公开官网，仅供检索与导航之用。各工具名称与商标归其所有者所有。</p>
+    </div>
+    <div>
+      <h4>你的数据</h4>
+      <p>收藏仅保存在本机浏览器（localStorage，键 ai-atlas-favs），不上传任何服务器；清除浏览器站点数据即会清空藏章。</p>
+    </div>
+    <div>
+      <h4>装订方式</h4>
+      <p>全站即单个 index.html，样式与脚本全部内联，零依赖零构建，可装订到 GitHub Pages、Vercel、Netlify、Cloudflare Pages 等任意静态托管。</p>
+    </div>
+  </div>
+  <div class="wrap f-bottom">
+    <span>© 2026 AI 工具年鉴 THE AI ATLAS · 第 001 期 · 手工排版</span>
+    <a href="#top">回到卷首 ↑</a>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"><span class="t-seal">藏</span><span id="toastMsg"></span></div>
+
+<noscript><div style="padding:20px;text-align:center">本鉴需要启用 JavaScript 才能展开卷册。</div></noscript>
+
+<script>
+/* ── 数据 ─────────────────────────── */
+const CATS=[
+  ["chat","对话助手","CONVERSATION"],
+  ["image","图像生成","IMAGE"],
+  ["video","视频创作","VIDEO"],
+  ["audio","音频与语音","AUDIO"],
+  ["code","编程开发","CODING"],
+  ["write","写作与办公","WRITING"],
+  ["design","设计与演示","DESIGN"],
+  ["search","AI 搜索","SEARCH"],
+  ["agent","智能体自动化","AGENTS"]
+];
+const CN=["一","二","三","四","五","六","七","八","九"];
+const PRICE={free:"免费",freemium:"基础免费",paid:"付费",open:"开源"};
+/* [id, 名称, 域名, 一句话简介, 分类, 定价, 力荐, 精选语] */
+const TOOLS=[
+  ["chatgpt","ChatGPT","chatgpt.com","OpenAI 旗下全能助手，写作、编程、看图、出方案一把梭","chat","freemium",1,"一切的原点，也是当下最全能的「万能搭子」：写作、编程、看图、出方案，一把梭。"],
+  ["claude","Claude","claude.ai","Anthropic 出品，长文理解与代码能力业界顶尖","chat","freemium",1],
+  ["gemini","Gemini","gemini.google.com","Google 出品，深度联动搜索与办公全家桶的多模态助手","chat","freemium",0],
+  ["deepseek","DeepSeek","chat.deepseek.com","国产开源旗舰，深度推理模式免费且强劲","chat","free",1],
+  ["kimi","Kimi","kimi.com","月之暗面出品，超长上下文，读论文读财报的利器","chat","free",0],
+  ["doubao","豆包","doubao.com","字节跳动出品，问答、写作与语音陪伴的日常助手","chat","free",0],
+  ["tongyi","通义千问","tongyi.com","阿里巴巴出品，办公与多模态能力均衡全面","chat","freemium",0],
+  ["wenxin","文心一言","yiyan.baidu.com","百度出品，中文知识问答的早期普及者","chat","freemium",0],
+  ["zhipu","智谱清言","chatglm.cn","智谱 AI 出品，GLM 系列模型官方对话应用","chat","free",0],
+  ["grok","Grok","grok.com","xAI 出品，接入 X 实时信息流，回答敢说敢言","chat","freemium",0],
+  ["copilot-ms","Microsoft Copilot","copilot.microsoft.com","微软出品，Windows 与 Office 里的 AI 副驾驶","chat","free",0],
+  ["poe","Poe","poe.com","Quora 出品，一个入口畅聊各家旗舰模型","chat","freemium",0],
+  ["mistral","Mistral","chat.mistral.ai","法国 Mistral 出品，开源阵营的欧洲代表","chat","freemium",0],
+  ["midjourney","Midjourney","midjourney.com","艺术风格图像生成的标杆，审美天花板","image","paid",1,"艺术感的代名词。概念海报、插画资产、品牌视觉，出图水准始终在线。"],
+  ["sd","Stable Diffusion","stability.ai","最著名的开源图像模型家族，可本地部署可微调","image","open",1],
+  ["ideogram","Ideogram","ideogram.ai","擅长海报与文字排版，中文标语也能画准","image","freemium",0],
+  ["leonardo","Leonardo","leonardo.ai","面向游戏与创意资产的平台化图像工坊","image","freemium",0],
+  ["recraft","Recraft","recraft.ai","矢量图、图标与品牌风格图像生成专家","image","freemium",0],
+  ["firefly","Adobe Firefly","firefly.adobe.com","Adobe 官方模型，商用安全并深度联动 PS","image","freemium",0],
+  ["jimeng","即梦 AI","jimeng.jianying.com","字节出品，图片与视频一体的中文创作平台","image","freemium",0],
+  ["sora","Sora","sora.com","OpenAI 视频模型，叙事感与物理真实感兼备","video","freemium",1],
+  ["runway","Runway","runwayml.com","影视级生成与剪辑工具箱，好莱坞也在用","video","freemium",0],
+  ["kling","可灵 AI","klingai.com","快手出品，国产视频生成第一梯队","video","freemium",1],
+  ["pika","Pika","pika.art","轻量趣味，特效模板让照片一张张活过来","video","freemium",0],
+  ["luma","Luma Dream Machine","lumalabs.ai","3D 质感视频与可交互世界模型","video","freemium",0],
+  ["heygen","HeyGen","heygen.com","数字人口播与视频多语言翻译神器","video","freemium",0],
+  ["suno","Suno","suno.com","写下歌词就生成完整歌曲，AI 音乐顶流","audio","freemium",1,"哼出两句歌词，三十秒后收到一首带人声的完整单曲。本年度最快乐的音乐玩具。"],
+  ["udio","Udio","udio.com","高音质 AI 音乐创作，人声表现出众","audio","freemium",0],
+  ["elevenlabs","ElevenLabs","elevenlabs.io","拟真语音合成与声音克隆的行业标杆","audio","freemium",0],
+  ["fish","Fish Audio","fish.audio","开源语音合成，声音克隆门槛极低","audio","open",0],
+  ["adbp","Adobe Podcast","podcast.adobe.com","浏览器里的录音棚，一键降噪与人声增强","audio","free",0],
+  ["gh-copilot","GitHub Copilot","github.com/features/copilot","代码补全的行业标准，装机量十亿级","code","freemium",1],
+  ["cursor","Cursor","cursor.com","AI 原生编辑器，Tab 补全与 Agent 编程新宠","code","freemium",1,"把 AI 缝进编辑器的每个角落，Tab 一下生成百行代码。用过就回不去的编程方式。"],
+  ["windsurf","Windsurf","windsurf.com","主打 Agent Flow 的智能 IDE","code","freemium",0],
+  ["claude-code","Claude Code","anthropic.com/claude-code","跑在终端里的编程智能体，直取仓库级任务","code","paid",0],
+  ["v0","v0","v0.dev","Vercel 出品，一句话生成可用的前端界面","code","freemium",0],
+  ["bolt","Bolt.new","bolt.new","浏览器里用提示词直接跑起全栈应用","code","freemium",0],
+  ["lovable","Lovable","lovable.dev","对话式搭建全栈 Web 应用","code","freemium",0],
+  ["replit","Replit","replit.com","云端 IDE 加 AI 智能体，从想法到上线","code","freemium",0],
+  ["trae","Trae","trae.ai","字节出品，免费好用的 AI 编程 IDE","code","free",0],
+  ["lingma","通义灵码","lingma.aliyun.com","阿里出品，贴合中文开发者的编码助手","code","free",0],
+  ["devv","Devv","devv.ai","程序员专属 AI 搜索，答案直接带代码","code","freemium",0],
+  ["hf","Hugging Face","huggingface.co","全球最大开源模型社区，AI 界的 GitHub","code","free",0],
+  ["notion","Notion AI","notion.com","笔记与文档里的写作助手，问答与自动排版","write","paid",0],
+  ["grammarly","Grammarly","grammarly.com","英文写作的语法、语气与润色顾问","write","freemium",0],
+  ["xiezuocat","秘塔写作猫","xiezuocat.com","中文校对与改写，公文论文两相宜","write","freemium",0],
+  ["notebooklm","NotebookLM","notebooklm.google.com","Google 出品，喂文档做研究，还能生成播客","write","free",0],
+  ["gamma","Gamma","gamma.app","一句话生成精美演示、网页与文档","design","freemium",0],
+  ["canva","Canva 可画","canva.com","全能平面设计平台，AI 抠图与文生图齐备","design","freemium",0],
+  ["figma","Figma","figma.com","协作界面设计标准，AI 生成设计稿与原型","design","freemium",0],
+  ["perplexity","Perplexity","perplexity.ai","带引用来源的 AI 答案引擎","search","freemium",1],
+  ["metaso","秘塔 AI 搜索","metaso.cn","国产 AI 搜索，无广告直达结构化结果","search","free",0],
+  ["kagi","Kagi","kagi.com","付费无广告，人工加权的高质量搜索","search","paid",0],
+  ["phind","Phind","phind.com","面向开发者的技术问答搜索","search","freemium",0],
+  ["you","You.com","you.com","多模型聚合的 AI 搜索与助手","search","freemium",0],
+  ["coze","Coze 扣子","coze.cn","字节出品，零代码搭建并发布 AI Bot","agent","freemium",0],
+  ["dify","Dify","dify.ai","开源 LLM 应用开发平台，私有化部署友好","agent","open",0],
+  ["n8n","n8n","n8n.io","开源工作流自动化，接上 AI 就是 Agent","agent","open",0],
+  ["manus","Manus","manus.im","通用 AI 智能体，交付结果而非答案","agent","freemium",0]
+];
+
+/* ── 状态 ─────────────────────────── */
+const $=s=>document.querySelector(s);
+const url=t=>"https://"+t[2];
+const catOf=id=>CATS.find(c=>c[0]===id);
+const state={q:"",cat:"all",price:"all",favOnly:false};
+let favs=new Set();
+try{favs=new Set(JSON.parse(localStorage.getItem("ai-atlas-favs")||"[]"))}catch(e){}
+const saveFavs=()=>{try{localStorage.setItem("ai-atlas-favs",JSON.stringify([...favs]))}catch(e){}};
+
+/* ── 分类页签 ─────────────────────── */
+const tabsEl=$("#tabs");
+tabsEl.innerHTML=
+  `<button class="tab on" data-cat="all" type="button">全部 <b>${TOOLS.length}</b></button>`+
+  CATS.map(c=>`<button class="tab" data-cat="${c[0]}" type="button">${c[1]} <b>${TOOLS.filter(t=>t[4]===c[0]).length}</b></button>`).join("");
+tabsEl.addEventListener("click",e=>{
+  const b=e.target.closest(".tab");if(!b)return;
+  state.cat=b.dataset.cat;syncTabs();render();
+});
+
+/* ── 编辑精选 ─────────────────────── */
+function renderPicks(){
+  const picks=TOOLS.filter(t=>t[7]);
+  $("#picksGrid").innerHTML=picks.map((t,i)=>`
+    <article class="pick" data-id="${t[0]}">
+      <div class="p-num">${String(i+1).padStart(2,"0")}</div>
+      <div class="p-cat">${catOf(t[4])[1]} · ${t[2]}</div>
+      <h3>${t[1]}</h3>
+      <p class="p-blurb">${t[7]}</p>
+      <div class="p-foot">
+        <a href="${url(t)}" target="_blank" rel="noopener">立即访问 ↗</a>
+        <button class="seal seal-sm" type="button" aria-label="收藏 ${t[1]}" aria-pressed="${favs.has(t[0])}">藏</button>
+      </div>
+    </article>`).join("");
+}
+
+/* ── 卷册渲染 ─────────────────────── */
+function cardHTML(t,i){
+  const fav=favs.has(t[0]);
+  return `
+  <article class="card" data-id="${t[0]}">
+    <div class="c-top"><span class="c-idx">No.${String(i+1).padStart(3,"0")}</span>${t[6]?'<span class="c-hot">✶ 力荐</span>':""}</div>
+    <h3 class="c-name"><a href="${url(t)}" target="_blank" rel="noopener">${t[1]}</a></h3>
+    <p class="c-desc">${t[3]}</p>
+    <div class="c-foot">
+      <span class="c-cat">${catOf(t[4])[1]}</span><span class="c-dot">·</span>
+      <span class="p-${t[5]}">${PRICE[t[5]]}</span>
+      <a class="c-go" href="${url(t)}" target="_blank" rel="noopener">${t[2]} ↗</a>
+    </div>
+    <button class="seal${fav?" on":""}" type="button" aria-label="收藏 ${t[1]}" aria-pressed="${fav}" title="${fav?"移出收藏":"收入收藏"}">藏</button>
+  </article>`;
+}
+function render(){
+  const q=state.q.trim().toLowerCase();
+  const match=t=>{
+    if(state.price!=="all"&&t[5]!==state.price)return false;
+    if(state.favOnly&&!favs.has(t[0]))return false;
+    if(q){const hay=(t[1]+" "+t[2]+" "+t[3]+" "+catOf(t[4])[1]).toLowerCase();if(!hay.includes(q))return false}
+    return true;
+  };
+  let total=0,html="";
+  CATS.forEach((c,ci)=>{
+    if(state.cat!=="all"&&state.cat!==c[0])return;
+    const list=TOOLS.map((t,i)=>[t,i]).filter(([t])=>t[4]===c[0]&&match(t));
+    if(!list.length)return;
+    total+=list.length;
+    html+=`<section class="chapter"><header class="ch-head"><span class="ch-no">卷${CN[ci]}</span><h2>${c[1]}</h2><span class="ch-en">${c[2]}</span><span class="ch-count">${list.length} 款</span></header><div class="ch-grid">${list.map(([t,i])=>cardHTML(t,i)).join("")}</div></section>`;
+  });
+  $("#chapters").innerHTML=html;
+  const empty=$("#empty");
+  empty.hidden=total>0;
+  if(!total){
+    if(state.favOnly&&favs.size===0){$("#emptyTitle").textContent="朱印尚未落章";$("#emptyDesc").textContent="在任意工具卡右上角点「藏」，把好工具收进你的图鉴。"}
+    else{$("#emptyTitle").textContent="无检索结果";$("#emptyDesc").textContent="换个关键词，或重置筛选再试。"}
+  }
+  requestAnimationFrame(reveal);
+}
+
+/* ── 入场显现 ─────────────────────── */
+const io=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}});
+},{rootMargin:"0px 0px -6% 0px",threshold:.05});
+function reveal(){
+  document.querySelectorAll(".card:not(.in),.pick:not(.in)").forEach((el,i)=>{
+    el.style.transitionDelay=Math.min(i*32,420)+"ms";io.observe(el);
+  });
+}
+
+/* ── 收藏 ─────────────────────────── */
+function updateFavUI(){
+  $("#favCount").textContent=favs.size;
+  $("#favTopN").textContent=favs.size;
+  $("#asideFav").textContent=favs.size+" 枚";
+  $("#favBtn").classList.toggle("on",state.favOnly);
+  $("#favTop").classList.toggle("on",state.favOnly);
+}
+let toastTimer;
+function toast(msg){
+  $("#toastMsg").textContent=msg;
+  const t=$("#toast");t.classList.add("show");
+  clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),2200);
+}
+function toggleFav(id,name){
+  const now=!favs.has(id);
+  if(now)favs.add(id);else favs.delete(id);
+  saveFavs();updateFavUI();
+  toast(now?`已收入我的收藏「${name}」`:`已从收藏移出「${name}」`);
+  if(state.favOnly){render()}
+  else{
+    document.querySelectorAll(`[data-id="${id}"] .seal`).forEach(s=>{
+      s.classList.toggle("on",now);s.setAttribute("aria-pressed",String(now));
+    });
+  }
+}
+document.body.addEventListener("click",e=>{
+  const s=e.target.closest(".seal");if(!s)return;
+  const holder=s.closest("[data-id]");if(!holder)return;
+  const t=TOOLS.find(x=>x[0]===holder.dataset.id);if(t)toggleFav(t[0],t[1]);
+});
+
+/* ── 检索 / 筛选 ──────────────────── */
+const qInput=$("#q");let deb;
+qInput.addEventListener("input",()=>{
+  clearTimeout(deb);
+  deb=setTimeout(()=>{state.q=qInput.value;$("#qClear").hidden=!qInput.value;render()},120);
+});
+$("#qClear").addEventListener("click",()=>{qInput.value="";state.q="";$("#qClear").hidden=true;render();qInput.focus()});
+$("#price").addEventListener("change",e=>{state.price=e.target.value;render()});
+function toggleFavOnly(){state.favOnly=!state.favOnly;updateFavUI();render()}
+$("#favBtn").addEventListener("click",toggleFavOnly);
+$("#favTop").addEventListener("click",toggleFavOnly);
+function syncTabs(){[...tabsEl.children].forEach(b=>b.classList.toggle("on",b.dataset.cat===state.cat))}
+function syncControls(){
+  qInput.value=state.q;$("#qClear").hidden=!state.q;
+  $("#price").value=state.price;syncTabs();updateFavUI();
+}
+$("#resetBtn").addEventListener("click",()=>{
+  Object.assign(state,{q:"",cat:"all",price:"all",favOnly:false});
+  syncControls();render();
+});
+
+/* ── 手气不错 ─────────────────────── */
+$("#lucky").addEventListener("click",()=>{
+  const t=TOOLS[Math.floor(Math.random()*TOOLS.length)];
+  Object.assign(state,{q:"",cat:"all",price:"all",favOnly:false});
+  syncControls();render();
+  requestAnimationFrame(()=>{
+    const el=document.querySelector(`.card[data-id="${t[0]}"]`);
+    if(el){
+      el.scrollIntoView({behavior:"smooth",block:"center"});
+      el.classList.remove("lucky");void el.offsetWidth;el.classList.add("lucky");
+    }
+    toast(`本期手气：「${t[1]}」— ${t[3]}`);
+  });
+});
+
+/* ── 快讯横带 ─────────────────────── */
+(function(){
+  const items=TOOLS.map(t=>`<span>${t[1]}</span><i>✦</i>`).join("");
+  $("#tickerTrack").innerHTML=`<div class="tk-g">${items}</div><div class="tk-g">${items}</div>`;
+})();
+
+/* ── 启动 ─────────────────────────── */
+renderPicks();render();updateFavUI();
+</script>
+</body>
+</html>
